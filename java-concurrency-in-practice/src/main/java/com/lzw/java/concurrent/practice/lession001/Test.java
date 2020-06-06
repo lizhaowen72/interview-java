@@ -9,7 +9,7 @@ public class Test {
     private static long count = 0;
     private void add10K(){
         int idx = 0;
-        while (idx++<100000000){
+        while (idx++<1000){
             count+=1;
         }
     }

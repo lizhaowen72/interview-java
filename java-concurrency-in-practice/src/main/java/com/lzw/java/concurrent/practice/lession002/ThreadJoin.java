@@ -1,4 +1,4 @@
-package com.lzw.java.concurrent.practice.lession001;
+package com.lzw.java.concurrent.practice.lession002;
 
 /**
  * @Auther: lizhaowen
