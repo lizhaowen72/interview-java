@@ -26,14 +26,11 @@ class ReverseLinkedList {
      */
     class Solution {
         public ListNode reverseList(ListNode head) {
-            ListNode pre = null;
-            while (head != null) {
-                ListNode temp = head.next;
-                head.next = pre;
-                pre = head;
-                head = temp;
-            }
-            return pre;
+            if (head==null || head.next == null) return head;
+            ListNode last = reverseList(head.next);
+            head.next.next = head;
+            head.next = null;
+            return last;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
