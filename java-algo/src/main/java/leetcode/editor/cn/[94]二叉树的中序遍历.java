@@ -22,6 +22,12 @@ import java.util.Stack;
 class BinaryTreeInorderTraversal {
     public static void main(String[] args) {
         Solution solution = new BinaryTreeInorderTraversal().new Solution();
+        TreeNode node1 = new TreeNode(2);
+        TreeNode node2 = new TreeNode(1);
+        TreeNode node3 = new TreeNode(3);
+        node1.left = node2;
+        node1.right = node3;
+        solution.inorderTraversal(node1);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -50,10 +56,26 @@ class BinaryTreeInorderTraversal {
             }
             return res;
         }
+
+        public List<Integer> inorderTraversal2(TreeNode root) {
+            ArrayList<Integer> res = new ArrayList<>();
+            Stack<TreeNode> stack = new Stack<>();
+            TreeNode curr = root;
+            while (curr != null || !stack.isEmpty()) {
+                while (curr != null) {
+                    stack.add(curr);
+                    curr = curr.left;
+                }
+                curr = stack.pop();
+                res.add(curr.val);
+                curr = curr.right;
+            }
+            return res;
+        }
     }
 
     //leetcode submit region end(Prohibit modification and deletion)
-    class TreeNode {
+    static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

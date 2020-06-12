@@ -1,0 +1,7 @@
+我们上面提到：破坏占用且等待条件，我们也是锁了所有的账户，
+而且还是用了死循环 while(!actr.apply(this, target));
+这个方法，那它比 synchronized(Account.class) 有没有性能优势呢？
+
+ans:synchronized(Account.class)锁了Account类相关的所有操作,
+相当于文中说的包场了,只要与Account有关联,统统需要等待当前线程操作完成,
+while死循环的方式只锁定了当前操作的两个相关的对象,两种影响到的范围不同

@@ -1,0 +1,143 @@
+F:\tools\interview-java\java-jvm\target\classes\com\lzw\java\jvm\lession006>javap -c Test
+警告: 二进制文件Test包含com.lzw.java.jvm.lession006.Test
+Compiled from "Test.java"
+public class com.lzw.java.jvm.lession006.Test {
+  public com.lzw.java.jvm.lession006.Test();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: invokestatic  #2                  // Method mayThrowException:()V
+       3: goto          11
+       6: astore_1
+
+--------------------------------------------------------------------------------
+F:\tools\interview-java\java-jvm\target\classes\com\lzw\java\jvm\lession006>javap -c Foo
+警告: 二进制文件Foo包含com.lzw.java.jvm.lession006.Foo
+Compiled from "Foo.java"
+public class com.lzw.java.jvm.lession006.Foo {
+  public com.lzw.java.jvm.lession006.Foo();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public void test();
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: putfield      #2                  // Field tryBlock:I
+       5: aload_0
+       6: iconst_2
+       7: putfield      #3                  // Field finallyBlock:I
+      10: goto          35
+      13: astore_1
+      14: aload_0
+      15: iconst_1
+      16: putfield      #5                  // Field catchBlock:I
+      19: aload_0
+      20: iconst_2
+      21: putfield      #3                  // Field finallyBlock:I
+      24: goto          35
+      27: astore_2
+      28: aload_0
+      29: iconst_2
+      30: putfield      #3                  // Field finallyBlock:I
+      33: aload_2
+      34: athrow
+      35: aload_0
+      36: iconst_3
+      37: putfield      #6                  // Field methodExit:I
+      40: return
+    Exception table:
+       from    to  target type
+           0     5    13   Class java/lang/Exception
+           0     5    27   any
+          13    19    27   any
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: new           #7                  // class com/lzw/java/jvm/lession006/Foo
+       3: dup
+       4: invokespecial #8                  // Method "<init>":()V
+       7: invokevirtual #9                  // Method test:()V
+      10: return
+}
+----------------------------------------------------------------------------------------
+F:\tools\interview-java\java-jvm\target\classes\com\lzw\java\jvm\lession006>javap -c Foo2
+警告: 二进制文件Foo2包含com.lzw.java.jvm.lession006.Foo2
+Compiled from "Foo2.java"
+public class com.lzw.java.jvm.lession006.Foo2 {
+  public com.lzw.java.jvm.lession006.Foo2();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: new           #2                  // class com/lzw/java/jvm/lession006/Foo2
+       3: dup
+       4: invokespecial #3                  // Method "<init>":()V
+       7: invokevirtual #4                  // Method test:()V
+      10: return
+
+  public void test();
+    Code:
+       0: iconst_0
+       1: istore_1
+       2: iload_1
+       3: bipush        100
+       5: if_icmpge     75
+       8: aload_0
+       9: iconst_0
+      10: putfield      #5                  // Field tryBlock:I
+      13: iload_1
+      14: bipush        50
+      16: if_icmpge     27
+      19: aload_0
+      20: iconst_2
+      21: putfield      #6                  // Field finallyBlock:I
+      24: goto          69
+      27: iload_1
+      28: bipush        80
+      30: if_icmpge     41
+      33: aload_0
+      34: iconst_2
+      35: putfield      #6                  // Field finallyBlock:I
+      38: goto          75
+      41: aload_0
+      42: iconst_2
+      43: putfield      #6                  // Field finallyBlock:I
+      46: return
+      47: astore_2
+      48: aload_0
+      49: iconst_1
+      50: putfield      #8                  // Field catchBlock:I
+      53: aload_0
+      54: iconst_2
+      55: putfield      #6                  // Field finallyBlock:I
+      58: goto          69
+      61: astore_3
+      62: aload_0
+      63: iconst_2
+      64: putfield      #6                  // Field finallyBlock:I
+      67: aload_3
+      68: athrow
+      69: iinc          1, 1
+      72: goto          2
+      75: aload_0
+      76: iconst_3
+      77: putfield      #9                  // Field methodExit:I
+      80: return
+    Exception table:
+       from    to  target type
+           8    19    47   Class java/lang/Exception
+          27    33    47   Class java/lang/Exception
+           8    19    61   any
+          27    33    61   any
+          47    53    61   any
+}
