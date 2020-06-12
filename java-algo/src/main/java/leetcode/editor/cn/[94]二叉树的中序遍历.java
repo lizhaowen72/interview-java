@@ -27,7 +27,8 @@ class BinaryTreeInorderTraversal {
         TreeNode node3 = new TreeNode(3);
         node1.left = node2;
         node1.right = node3;
-        solution.inorderTraversal(node1);
+        List<Integer> integers = solution.inorderTraversal(node1);
+        System.out.println(integers);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -41,7 +42,23 @@ class BinaryTreeInorderTraversal {
      * }
      */
     class Solution {
+        List<Integer> res = new ArrayList<>();
+
         public List<Integer> inorderTraversal(TreeNode root) {
+            traverse(root);
+            return res;
+        }
+
+        private void traverse(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+            traverse(root.left);
+            res.add(root.val);
+            traverse(root.right);
+        }
+
+        public List<Integer> inorderTraversal3(TreeNode root) {
             List<Integer> res = new ArrayList<Integer>();
             Stack<TreeNode> stack = new Stack<TreeNode>();
             TreeNode cur = root;
@@ -84,6 +101,4 @@ class BinaryTreeInorderTraversal {
             val = x;
         }
     }
-//leetcode submit region end(Prohibit modification and deletion)
-
 }

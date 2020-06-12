@@ -70,7 +70,7 @@ class UniqueBinarySearchTreesIi {
                 list.add(null);
                 return list;
             }
-            if (start == end) {
+            if (start == end) {// 只有一个节点
                 list.add(new TreeNode(start));
                 return list;
             }
