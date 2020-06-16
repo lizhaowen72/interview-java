@@ -24,9 +24,9 @@ class UniqueBinarySearchTrees {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numTrees(int n) {
-            if (n == 0) {
-                return 0;
-            }
+//            if (n == 0) {
+//                return 0;
+//            }
             return genTreeNums(1, n);
         }
 
@@ -46,8 +46,8 @@ class UniqueBinarySearchTrees {
             return ans;
         }
 
-        public int numTrees4(int n) {
-            // 定义G[i],表示以 1 ... n 为节点组成的二叉搜索树有G[i]种
+        public int numTrees2(int n) {
+            // 定义G[i],表示以 1 ... i 为节点组成的二叉搜索树有G[i]种
             int[] G = new int[n + 1];
             // base case
             G[0] = 1;

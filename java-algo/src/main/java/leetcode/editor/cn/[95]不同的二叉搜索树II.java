@@ -37,7 +37,7 @@ package leetcode.editor.cn;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniqueBinarySearchTreesIi {
+class UniqueBinarySearchTreesIi {
     public static void main(String[] args) {
         Solution solution = new UniqueBinarySearchTreesIi().new Solution();
     }
@@ -62,9 +62,10 @@ public class UniqueBinarySearchTreesIi {
         public List<TreeNode> generateTrees(int n) {
             List<TreeNode> treeNodes = genTrees(1, n);
             if (treeNodes.get(0) == null) {
-                return new ArrayList<>();
+                return new ArrayList<TreeNode>();
             }
             return treeNodes;
+
         }
 
         public List<TreeNode> genTrees(int start, int end) {
@@ -77,22 +78,21 @@ public class UniqueBinarySearchTreesIi {
                 res.add(new TreeNode(start));
                 return res;
             }
-            List<TreeNode> left = null, right = null;
+            List<TreeNode> leftListTreeNode = null, rightListTreeNode = null;
             for (int i = start; i <= end; i++) {
-                left = genTrees(start, i - 1);
-                right = genTrees(i + 1, end);
-                for (TreeNode lNode : left) {
-                    for (TreeNode rNode : right) {
+                leftListTreeNode = genTrees(start, i - 1);
+                rightListTreeNode = genTrees(i + 1, end);
+                for (TreeNode lTreeNode : leftListTreeNode) {
+                    for (TreeNode rTreeNode : rightListTreeNode) {
                         TreeNode root = new TreeNode(i);
-                        root.left = lNode;
-                        root.right = rNode;
+                        root.left = lTreeNode;
+                        root.right = rTreeNode;
                         res.add(root);
                     }
                 }
             }
             return res;
         }
-
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
