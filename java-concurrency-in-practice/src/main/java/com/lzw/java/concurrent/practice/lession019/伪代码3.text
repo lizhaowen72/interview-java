@@ -1,0 +1,20 @@
+// 创建2个线程的线程池
+Executor executor = Executors.newFixedThreadPool(2);
+while(存在未对账订单){
+    CountDownLatch latch = new CountDownLatch(2);
+    // 查询未对账订单
+    executor.execute(()->{
+        pos = getPOrders();
+        latch.countDown();
+    });
+    // 查询派送单
+    executor.execute(()->{
+        dos = getDOrders();
+        latch.countDown();
+    )};
+    /** 如何实现等待 **/
+    latch.await();
+    diff = check(pos,dos);
+    // 差异写入差异库
+    save(diff);
+}

@@ -1,0 +1,19 @@
+while(存在未对账订单){
+    // 查询未对账订单
+    Thread t1 = new Thread(()->{
+        pos = getPOrders();
+    });
+    t1.start();
+    // 查询派送单
+    Thread t2 = new Thread(()->{
+        dos = getDOrders();
+    )};
+    t2.start;
+    // 等待t1 t2 执行结束
+    t1.join();
+    t2.join();
+    // 指定对账操作
+    diff = check(pos,dos);
+    // 差异写入差异库
+    save(diff);
+}
