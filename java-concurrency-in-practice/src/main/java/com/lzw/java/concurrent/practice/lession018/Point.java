@@ -35,6 +35,7 @@ public class Point {
         long stamp = sl.readLock();
         try {
             while (x == 0.0 && y == 0.0) {
+                // 释放读锁,返回一个写的stamp
                 long ws = sl.tryConvertToWriteLock(stamp);
                 if (ws != 0L) {
                     stamp = ws;

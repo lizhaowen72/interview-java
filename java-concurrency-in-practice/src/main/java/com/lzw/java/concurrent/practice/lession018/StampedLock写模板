@@ -1,0 +1,7 @@
+Long stampd = sl.writeLock();
+try{
+    //写共享变量
+    .....
+}finally{
+    sl.unlockWrite(stampd);
+}
