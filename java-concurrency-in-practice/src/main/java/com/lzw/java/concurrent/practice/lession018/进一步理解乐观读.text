@@ -1,0 +1,8 @@
+StampedLock的乐观读与数据库的乐观锁有异曲同工之妙.
+
+---query sql ---
+select id,...,version from product_doc where id = 777
+---end ---
+
+--- update sql ---
+update product_doc set version = version +1 where id = 777 and version = 9

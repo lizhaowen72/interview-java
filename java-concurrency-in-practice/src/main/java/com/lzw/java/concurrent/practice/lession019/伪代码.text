@@ -1,0 +1,10 @@
+while(存在未对账订单){
+    // 查询未对账订单
+    pos=getPOrder();
+    // 查询派送单
+    dos=getDOrder();
+    // 指定对账操作
+    diff = check(pos,dos);
+    // 差异写入差异库
+    save(diff);
+}
