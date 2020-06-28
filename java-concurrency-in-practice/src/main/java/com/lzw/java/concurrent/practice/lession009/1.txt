@@ -1,0 +1,22 @@
+Thread-0i: 1
+Thread-0i: 2
+Thread-0i: 3
+-1-1-1-
+000000
+Thread-0i: 4
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method)
+	at com.lzw.java.concurrent.practice.lession009.Worker.run(Worker.java:20)
+Thread-0i: 5
+000111
+111111
+
+Thread-0i: 1
+Thread-0i: 2
+-1-1-1-
+000000
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method)
+	at com.lzw.java.concurrent.practice.lession009.Worker.run(Worker.java:20)
+000111
+111111

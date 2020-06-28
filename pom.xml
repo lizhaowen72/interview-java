@@ -20,6 +20,7 @@
         <module>java-performance-tuning</module>
         <module>java-design-patterns</module>
         <module>java-mysql</module>
+        <module>java-netty</module>
     </modules>
 
     <properties>

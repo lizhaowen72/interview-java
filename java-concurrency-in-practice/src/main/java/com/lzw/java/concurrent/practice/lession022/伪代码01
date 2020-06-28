@@ -1,0 +1,19 @@
+// 采用一般意义上池化资源的设计方法
+class ThreadPool{
+    // 获取空闲线程
+    Thread acquire(){
+
+    }
+    // 释放线程
+    void release(){
+
+    }
+    // 期望的使用
+    ThreadPool pool;
+    Thread T1 = pool.acquire();
+    // 传入Runnable对象
+    T1.execute(()->{
+       // 具体业务逻辑
+       ......
+    });
+}

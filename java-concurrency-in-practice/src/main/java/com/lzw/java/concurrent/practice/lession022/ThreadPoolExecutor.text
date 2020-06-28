@@ -1,0 +1,10 @@
+ThreadPoolExecutor(
+    int corePoolSize,
+    int maximumPoolSize,
+    long keepActiveTime,
+    TimeUnit unit,
+    BlockingQueue<Runnable> workQueue,
+    ThreadFactory threadFactory,
+    RejectedExecutionHandler handler)
+
+    corePoolSize:表示线程池保有的最小线程数.有些项目很闲,但是也不能把人都撤了,至少要留corePoolSize个人坚守阵地
