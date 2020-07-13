@@ -1,10 +1,10 @@
-package com.lzw.java.design.patterns;
+package com.lzw.java.mq;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JavaDesignPatternsApplicationTests {
+class JavaMqApplicationTests {
 
     @Test
     void contextLoads() {

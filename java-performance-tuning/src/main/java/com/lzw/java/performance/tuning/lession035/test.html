@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_layout-fx.css">
+    <style>
+        .container { width: 100%; }
+        .wiki-container { width: 100%; }
+        .wiki-body { width: 100%; }
+    </style>
+    <link rel="stylesheet" href="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_darcula-fx.css">
+    <link rel="stylesheet" href="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_hljs-darcula.css">
+    <link rel="stylesheet" href="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_katex.min.css">
+    <title>graph.md</title>
+    <script src="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_highlight.pack.js"></script>
+    <script src="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_katex.min.js"></script>
+    <script src="file:/C:/Users/Administrator/.markdownNavigator/multimarkdown_mermaid.min.js"></script>
+    <script src="https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js"></script></head>
+<body>
+<script>medmaid.initialize({theme:'forest'})</script><div class="container">
+    <div id="readme" class="boxed-group">
+        <h3>
+            <a href="https://github.com/lizhaowen72/interview-java/blob/master/java-performance-tuning/src/main/java/com/lzw/java/performance/tuning/lession035/graph.md" name="markdown-page" id="markdown-page" class="page-anchor"><span class="bookicon octicon-book"></span>
+            </a>  graph.md
+        </h3>
+        <article class="markdown-body">
+            <div md-pos="0-186" class="mermaid">
+                sequenceDiagram
+                Alice-&gt;&gt;+John: Hello John, how are you?
+                Alice-&gt;&gt;+John: John, can you hear me?
+                John--&gt;&gt;-Alice: Hi Alice, I can hear you!
+                John--&gt;&gt;-Alice: I feel great!
+            </div>
+        </article>
+    </div>
+</div>
+<script>hljs.initHighlightingOnLoad();</script><script>
+    (() => {
+        var mathElems = document.getElementsByClassName("katex");
+        var elems = [];
+        for (const i in mathElems) {
+            if (mathElems.hasOwnProperty(i)) elems.push(mathElems[i]);
+        }
+        elems.forEach(elem => {
+            katex.render(elem.textContent, elem, { throwOnError: false, displayMode: elem.nodeName !== 'SPAN', });
+        });
+    })();
+</script><script>mermaid.initialize({startOnLoad:true});</script></body>
+</html>
