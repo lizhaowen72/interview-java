@@ -15,22 +15,24 @@ package leetcode.editor.cn;
 // 
 // Related Topics 字符串 动态规划
 
-class LongestPalindromicSubstring{
+class LongestPalindromicSubstring {
     public static void main(String[] args) {
-         Solution solution = new LongestPalindromicSubstring().new Solution();
+        Solution solution = new LongestPalindromicSubstring().new Solution();
+        solution.longestPalindrome("bab");
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+    class Solution {
         public String longestPalindrome(String s) {
             if (s == null || s.length() == 0) {
                 return s;
             }
             int len = s.length();
+            boolean[][] dp = new boolean[len + 1][len + 1];
             String res = null;
-            boolean[][] dp = new boolean[len][len];
             for (int i = len - 1; i >= 0; i--) {
                 for (int j = i; j < len; j++) {
-                    dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i < 3 || dp[i + 1][j - 1]);
+                    dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1]);
                     if (dp[i][j] && (res == null || j - i + 1 > res.length())) {
                         res = s.substring(i, j + 1);
                     }
@@ -38,7 +40,7 @@ class Solution {
             }
             return res;
         }
-}
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

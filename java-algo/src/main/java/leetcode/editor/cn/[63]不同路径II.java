@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-//一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。 
+//一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
 //
 // 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。 
 //
@@ -26,27 +26,30 @@ package leetcode.editor.cn;
 //1. 向右 -> 向右 -> 向下 -> 向下
 //2. 向下 -> 向下 -> 向右 -> 向右
 // 
-// Related Topics 数组 动态规划
+// Related Topics 数组 动态规划 
+// 👍 385 👎 0
 
-class UniquePathsIi{
+
+class UniquePathsIi {
     public static void main(String[] args) {
-         Solution solution = new UniquePathsIi().new Solution();
+        Solution solution = new UniquePathsIi().new Solution();
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+    class Solution {
         public int uniquePathsWithObstacles(int[][] obstacleGrid) {
             int r = obstacleGrid.length;
             int c = obstacleGrid[0].length;
             if (obstacleGrid[0][0] == 1) {
                 return 0;
             }
+            // 初始化
             obstacleGrid[0][0] = 1;
-            // 初始化第一列
             for (int i = 1; i < r; i++) {
-                obstacleGrid[i][0] = (obstacleGrid[i][0] == 0 && obstacleGrid[i - 1][0] == 1) ? 1 : 0;
+                obstacleGrid[i][0] = obstacleGrid[i][0] == 0 && obstacleGrid[i - 1][0] == 1 ? 1 : 0;
             }
-            for (int i = 1; i < c; i++) {
-                obstacleGrid[0][i] = (obstacleGrid[0][i] == 0 && obstacleGrid[0][i - 1] == 1) ? 1 : 0;
+            for (int j = 1; j < c; j++) {
+                obstacleGrid[0][j] = obstacleGrid[0][j] == 0 && obstacleGrid[0][j - 1] == 1 ? 1 : 0;
             }
             for (int i = 1; i < r; i++) {
                 for (int j = 1; j < c; j++) {
