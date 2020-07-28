@@ -27,7 +27,7 @@ class BinaryTreeInorderTraversal {
         TreeNode node3 = new TreeNode(3);
         node1.left = node2;
         node1.right = node3;
-        List<Integer> integers = solution.inorderTraversal(node1);
+        List<Integer> integers = solution.inorderTraversal1(node1);
         System.out.println(integers);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -44,12 +44,12 @@ class BinaryTreeInorderTraversal {
     class Solution {
         List<Integer> res = new ArrayList<>();
 
-        public List<Integer> inorderTraversal(TreeNode root) {
+        public List<Integer> inorderTraversal1(TreeNode root) {
             traverse(root);
             return res;
         }
 
-        private void traverse(TreeNode root) {
+        public void traverse(TreeNode root) {
             if (root == null) {
                 return;
             }
@@ -58,25 +58,9 @@ class BinaryTreeInorderTraversal {
             traverse(root.right);
         }
 
-        public List<Integer> inorderTraversal3(TreeNode root) {
-            List<Integer> res = new ArrayList<Integer>();
+        public List<Integer> inorderTraversal(TreeNode root) {
             Stack<TreeNode> stack = new Stack<TreeNode>();
-            TreeNode cur = root;
-            while (cur != null || !stack.isEmpty()) {
-                while (cur != null) {
-                    stack.add(cur);
-                    cur = cur.left;
-                }
-                cur = stack.pop();
-                res.add(cur.val);
-                cur = cur.right;
-            }
-            return res;
-        }
-
-        public List<Integer> inorderTraversal2(TreeNode root) {
-            ArrayList<Integer> res = new ArrayList<>();
-            Stack<TreeNode> stack = new Stack<>();
+            List<Integer> result = new ArrayList<>();
             TreeNode curr = root;
             while (curr != null || !stack.isEmpty()) {
                 while (curr != null) {
@@ -84,10 +68,10 @@ class BinaryTreeInorderTraversal {
                     curr = curr.left;
                 }
                 curr = stack.pop();
-                res.add(curr.val);
+                result.add(curr.val);
                 curr = curr.right;
             }
-            return res;
+            return result;
         }
     }
 
