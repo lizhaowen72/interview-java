@@ -35,29 +35,36 @@ class MaximumDepthOfBinaryTree {
      * }
      */
     class Solution {
-        public int maxDepth(TreeNode root) {
+        public int maxDepth1(TreeNode root) {
             if (root == null) {
                 return 0;
             }
             Stack<TreeNode> stack = new Stack<>();
             Stack<Integer> value = new Stack<>();
-            stack.push(root);
-            value.push(1);
+            stack.add(root);
+            value.add(1);
             int max = 0;
             while (!stack.isEmpty()) {
-                TreeNode node = stack.pop();
-                int temp = value.pop();
-                max = Math.max(temp, max);
-                if (node.left != null) {
-                    stack.push(node.left);
-                    value.push(temp + 1);
+                TreeNode treeNode = stack.pop();
+                Integer temp = value.pop();
+                max = Math.max(max, temp);
+                if (treeNode.left != null) {
+                    stack.add(treeNode.left);
+                    value.add(temp + 1);
                 }
-                if (node.right != null) {
-                    stack.push(node.right);
-                    value.push(temp + 1);
+                if (treeNode.right != null) {
+                    stack.add(treeNode.right);
+                    value.add(temp + 1);
                 }
             }
             return max;
+        }
+
+        public int maxDepth(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            return Math.max(maxDepth(root.right) + 1, maxDepth(root.left) + 1);
         }
 
         /**

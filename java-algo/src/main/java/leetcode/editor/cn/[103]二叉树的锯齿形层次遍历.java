@@ -22,7 +22,6 @@ package leetcode.editor.cn;
 // Related Topics 栈 树 广度优先搜索
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 class BinaryTreeZigzagLevelOrderTraversal {
@@ -55,27 +54,29 @@ class BinaryTreeZigzagLevelOrderTraversal {
     class Solution {
         public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
             List<List<Integer>> sol = new ArrayList<>();
-            travel(root, sol, 0);
+            traverl(root, sol, 0);
             return sol;
         }
 
-        private void travel(TreeNode curr, List<List<Integer>> sol, int level) {
-            if (curr == null) {
+        private void traverl(TreeNode root, List<List<Integer>> sol, int level) {
+            if (root == null) {
                 return;
             }
             if (sol.size() <= level) {
-                List<Integer> newLevel = new LinkedList<>();
+                List<Integer> newLevel = new ArrayList<>();
                 sol.add(newLevel);
             }
-            List<Integer> collection = sol.get(level);
+            List<Integer> levelList = sol.get(level);
             if (level % 2 == 0) {
-                collection.add(curr.val);
+                levelList.add(root.val);
             } else {
-                collection.add(0, curr.val);
+                levelList.add(0, root.val);
             }
-            travel(curr.left, sol, level + 1);
-            travel(curr.right, sol, level + 1);
+            traverl(root.left, sol, level + 1);
+            traverl(root.right, sol, level + 1);
         }
+
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

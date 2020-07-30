@@ -43,6 +43,14 @@ class ConstructBinaryTreeFromInorderAndPostorderTraversal {
      * }
      */
     class Solution {
+        public TreeNode buildTree2(int[] inorder, int[] postorder) {
+            if (inorder == null || postorder == null || inorder.length != postorder.length) {
+                return null;
+            }
+            return null;
+        }
+
+
         /**
          * The the basic idea is to take the last element in postorder array as the root, find the position of the root
          * in the inorder array; then locate the range for left sub-tree and right sub-tree and do recursion. Use a HashMap
