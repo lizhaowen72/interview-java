@@ -27,7 +27,7 @@ package leetcode.editor.cn;
 //输出: 42 
 // Related Topics 树 深度优先搜索
 
-class BinaryTreeMaximumPathSum{
+class BinaryTreeMaximumPathSum {
     public static void main(String[] args) {
         Solution solution = new BinaryTreeMaximumPathSum().new Solution();
         TreeNode node3 = new TreeNode(-10);
@@ -62,12 +62,29 @@ class BinaryTreeMaximumPathSum{
             return maxValue;
         }
 
-        private int maxPathDown(TreeNode root) {
+        public int maxPathDown(TreeNode root) {
             if (root == null) {
                 return 0;
             }
             int left = Math.max(0, maxPathDown(root.left));
             int right = Math.max(0, maxPathDown(root.right));
+            maxValue = Math.max(maxValue, left + right + root.val);
+            // Math.max(left, right) + root.val:选取大的一个路径 -10-->20-->15，而非-10-->20-->7
+            return Math.max(left, right) + root.val;
+        }
+
+
+        public int maxPathSum2(TreeNode root) {
+            maxPathDown2(root);
+            return maxValue;
+        }
+
+        private int maxPathDown2(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            int left = Math.max(0, maxPathDown2(root.left));
+            int right = Math.max(0, maxPathDown2(root.right));
             maxValue = Math.max(maxValue, left + right + root.val);
             return Math.max(left, right) + root.val;
         }

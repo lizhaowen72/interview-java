@@ -64,6 +64,18 @@ class FlattenBinaryTreeToLinkedList {
             root.left = null;
             prev = root;
         }
+
+
+        public void flatten2(TreeNode root) {
+            if (root == null) {
+                return;
+            }
+            flatten2(root.right);
+            flatten2(root.left);
+            root.right = prev;
+            root.left = null;
+            prev = root;
+        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

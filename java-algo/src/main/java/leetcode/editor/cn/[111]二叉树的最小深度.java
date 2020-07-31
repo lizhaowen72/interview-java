@@ -47,11 +47,18 @@ class MinimumDepthOfBinaryTree {
      */
     class Solution {
         public int minDepth(TreeNode root) {
+            if (root == null) return 0;
+            int left = minDepth(root.left);
+            int right = minDepth(root.right);
+            return (left == 0 || right == 0) ? left + right + 1 : Math.min(left, right) + 1;
+        }
+
+        public int minDepth2(TreeNode root) {
             if (root == null) {
                 return 0;
             }
-            int left = minDepth(root.left);
-            int right = minDepth(root.right);
+            int left = minDepth2(root.left);
+            int right = minDepth2(root.right);
             return (left == 0 || right == 0) ? right + left + 1 : Math.min(left, right) + 1;
         }
     }
