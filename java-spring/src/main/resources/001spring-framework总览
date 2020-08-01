@@ -1,0 +1,18 @@
+### 面试题
+#### 1.傻屌面试题-什么是Spring Framework?
+>Spring makes it easy to create Java enterprise applications.It provides everything you need to embrace the Java language
+in an enterprise environment, with support for Groovy and
+Kotlin as alternative languages on the JVM, and with the
+flexibility to create many kinds of architectures depending on
+an application’s needs.
+spring使得创建java企业应用变得简单,它全面拥抱了java语言,并且提供了所有,同时在jvm层面还支持 Grovy和kotlin语言,而且在创建架构方面具有很强的灵活性,这具体取决于应用需要
+
+#### 2.996-Spring Framework有哪些核心模块?
+>spring-core:spring基础api模块,入资源管理 泛型管理
+> spring-beans:springBean 相关,如依赖查找,依赖注入
+> spring-aop:springAop处理,如动态代理,AOP字节码提升
+> spring-context:事件驱动 注解驱动 模块驱动等
+> spring-expression:Spring表达式语言模块
+
+#### 3.劝退-spring framework的优势和不足是什么?
+>
