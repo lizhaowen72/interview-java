@@ -43,6 +43,28 @@ class ConstructBinaryTreeFromInorderAndPostorderTraversal {
      * }
      */
     class Solution {
+        public TreeNode buildTree(int[] inorder, int[] postorder) {
+            if (inorder == null || postorder == null || inorder.length != postorder.length) {
+                return null;
+            }
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < inorder.length; i++) {
+                map.put(inorder[i], i);
+            }
+            return buildTreeByPostAndInOrder(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1, map);
+        }
+
+        public TreeNode buildTreeByPostAndInOrder(int[] inorder, int istart, int iend, int[] postorder, int pstart, int pend, Map<Integer, Integer> map) {
+            if (istart > iend || pstart > pend) {
+                return null;
+            }
+            TreeNode root = new TreeNode(postorder[pend]);
+            Integer rindex = map.get(postorder[pend]);
+            root.left = buildTreeByPostAndInOrder(inorder, istart, rindex - 1, postorder, pstart, pstart + rindex - istart - 1, map);
+            root.right = buildTreeByPostAndInOrder(inorder, rindex + 1, iend, postorder, pstart + rindex - istart, pend - 1, map);
+            return root;
+        }
+
         /**
          * The the basic idea is to take the last element in postorder array as the root, find the position of the root
          * in the inorder array; then locate the range for left sub-tree and right sub-tree and do recursion. Use a HashMap
@@ -52,7 +74,7 @@ class ConstructBinaryTreeFromInorderAndPostorderTraversal {
          * @param postorder
          * @return
          */
-        public TreeNode buildTree(int[] inorder, int[] postorder) {
+        public TreeNode buildTree2(int[] inorder, int[] postorder) {
             if (inorder == null || postorder == null || inorder.length != postorder.length) {
                 return null;
             }

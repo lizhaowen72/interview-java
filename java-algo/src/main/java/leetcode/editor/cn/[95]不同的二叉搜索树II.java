@@ -60,15 +60,14 @@ class UniqueBinarySearchTreesIi {
      */
     class Solution {
         public List<TreeNode> generateTrees(int n) {
-            List<TreeNode> treeNodes = genTrees(1, n);
-            if (treeNodes.get(0) == null) {
+            List<TreeNode> treeNodeList = generateTrees(1, n);
+            if (treeNodeList.get(0) == null) {
                 return new ArrayList<TreeNode>();
             }
-            return treeNodes;
-
+            return treeNodeList;
         }
 
-        public List<TreeNode> genTrees(int start, int end) {
+        private List<TreeNode> generateTrees(int start, int end) {
             List<TreeNode> res = new ArrayList<>();
             if (start > end) {
                 res.add(null);
@@ -78,15 +77,15 @@ class UniqueBinarySearchTreesIi {
                 res.add(new TreeNode(start));
                 return res;
             }
-            List<TreeNode> leftListTreeNode = null, rightListTreeNode = null;
+            List<TreeNode> leftTreeNodes, rightTreeNodes;
             for (int i = start; i <= end; i++) {
-                leftListTreeNode = genTrees(start, i - 1);
-                rightListTreeNode = genTrees(i + 1, end);
-                for (TreeNode lTreeNode : leftListTreeNode) {
-                    for (TreeNode rTreeNode : rightListTreeNode) {
+                leftTreeNodes = generateTrees(start, i - 1);
+                rightTreeNodes = generateTrees(i + 1, end);
+                for (TreeNode leftTreeNode : leftTreeNodes) {
+                    for (TreeNode rightTreeNode : rightTreeNodes) {
                         TreeNode root = new TreeNode(i);
-                        root.left = lTreeNode;
-                        root.right = rTreeNode;
+                        root.left = leftTreeNode;
+                        root.right = rightTreeNode;
                         res.add(root);
                     }
                 }

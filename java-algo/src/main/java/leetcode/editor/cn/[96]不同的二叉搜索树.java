@@ -18,50 +18,41 @@ package leetcode.editor.cn;
 class UniqueBinarySearchTrees {
     public static void main(String[] args) {
         Solution solution = new UniqueBinarySearchTrees().new Solution();
-        System.out.println(solution.numTrees(2));
+        System.out.println(solution.numTrees(3));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int numTrees(int n) {
-//            if (n == 0) {
-//                return 0;
-//            }
+        public int numTrees2(int n) {
             return genTreeNums(1, n);
         }
 
         private int genTreeNums(int start, int end) {
-            int ans = 0;
+            int res = 0;
             if (start >= end) {
                 return 1;
             }
             for (int i = start; i <= end; i++) {
-                // 得到所有可能的左子树
-                int leftTreesNum = genTreeNums(start, i - 1);
-                // 得到所有可能的右子树
-                int rightTreesNum = genTreeNums(i + 1, end);
-                // 左右子树的两两组合
-                ans += leftTreesNum * rightTreesNum;
+                int leftTreeNums = genTreeNums(start, i - 1);
+                int rightTreeNums = genTreeNums(i + 1, end);
+                res += leftTreeNums * rightTreeNums;
             }
-            return ans;
+            return res;
         }
 
-        public int numTrees2(int n) {
-            // 定义G[i],表示以 1 ... i 为节点组成的二叉搜索树有G[i]种
-            int[] G = new int[n + 1];
-            // base case
-            G[0] = 1;
-            G[1] = 1;
+        public int numTrees(int n) {
+            int[] res = new int[n + 1];
+            res[0] = 1;
+            res[1] = 1;
 
-            for (int i = 2; i <= n; ++i) {
-                for (int j = 1; j <= i; ++j) {
-                    // 以j为分界点,得到G[j-1]和G[i-j]
-                    // G[2]+ = G[0]*G[1]=1 ,G[2] + = G[1]*G[0]=2
-                    G[i] += G[j - 1] * G[i - j];
+            for (int i = 2; i <= n; i++) {
+                for (int j = 1; j <= i; j++) {
+                    res[i] += res[i - j] * res[j - 1];
                 }
             }
-            return G[n];
+            return res[n];
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

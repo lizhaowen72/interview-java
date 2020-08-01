@@ -37,7 +37,7 @@ package leetcode.editor.cn;
 // 
 // Related Topics 树 深度优先搜索
 
-class BalancedBinaryTree{
+class BalancedBinaryTree {
     public static void main(String[] args) {
         Solution solution = new BalancedBinaryTree().new Solution();
         TreeNode node3 = new TreeNode(3);
@@ -65,8 +65,23 @@ class BalancedBinaryTree{
      * }
      */
     class Solution {
+        public boolean isBalanced(TreeNode root) {
+            if (root == null) return true;
+            int leftDepth = depthHelper(root.left);
+            int rightDepth = depthHelper(root.right);
+            return Math.abs(leftDepth - rightDepth) <= 1 && isBalanced2(root.left) && isBalanced2(root.right);
+        }
+
+        private int depthHelper(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            return Math.max(depthHelper(root.left), depthHelper(root.right)) + 1;
+        }
+
         /**
          * 解法1:自顶向下
+         *
          * @param root
          * @return
          */
@@ -86,25 +101,26 @@ class BalancedBinaryTree{
             return Math.max(depth(root.left), depth(root.right)) + 1;
         }
 
-        public boolean isBalanced(TreeNode root){
-            return dfsHeight(root)!=-1;
+        public boolean isBalanced3(TreeNode root) {
+            return dfsHeight(root) != -1;
         }
-        public int dfsHeight(TreeNode root){
-            if (root==null){
+
+        public int dfsHeight(TreeNode root) {
+            if (root == null) {
                 return 0;
             }
             int leftHeight = dfsHeight(root.left);
-            if (leftHeight==-1){
+            if (leftHeight == -1) {
                 return -1;
             }
             int rightLeft = dfsHeight(root.right);
-            if (rightLeft==-1){
+            if (rightLeft == -1) {
                 return -1;
             }
-            if (Math.abs(leftHeight-rightLeft)>1){
+            if (Math.abs(leftHeight - rightLeft) > 1) {
                 return -1;
             }
-            return Math.max(leftHeight,rightLeft)+1;
+            return Math.max(leftHeight, rightLeft) + 1;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

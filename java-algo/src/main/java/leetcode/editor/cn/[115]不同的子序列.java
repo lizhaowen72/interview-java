@@ -45,34 +45,16 @@ package leetcode.editor.cn;
 class DistinctSubsequences {
     public static void main(String[] args) {
         Solution solution = new DistinctSubsequences().new Solution();
-        String S = "babgbag", T = "bag";
+        String S = "babag", T = "bag";
         solution.numDistinct(S, T);
     }
 
-    //leetcode submit region begin(Prohibit modification and deletion)
+//leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int numDistinct(String s, String t) {
-            // res[i+1][j+1]表示s[0...j]包含多少种的t[0...i]序列,res[i][j] --> s[0...i-1][0...j-1],res[i+1][j]-->s[0...i][0...j-1]
             int[][] res = new int[s.length() + 1][t.length() + 1];
             for (int i = 0; i <= s.length(); i++) {
                 res[i][0] = 1;
-            }
-            for (int i = 0; i < t.length(); i++) {
-                for (int j = 0; j < s.length(); j++) {
-                    if (t.charAt(i) == s.charAt(j)) {
-                        res[i + 1][j + 1] = res[i][j] + res[i + 1][j];
-                    } else {
-                        res[i + 1][j + 1] = res[i + 1][j];
-                    }
-                }
-            }
-            return res[t.length()][s.length()];
-        }
-        public int numDistinct2(String s, String t) {
-            // res[i+1][j+1]表示s[0...j]包含多少种的t[0...i]序列
-            int[][] res = new int[t.length() + 1][s.length() + 1];
-            for (int j = 0; j <= s.length(); j++) {
-                res[0][j] = 1;
             }
             for (int i = 0; i < t.length(); i++) {
                 for (int j = 0; j < s.length(); j++) {

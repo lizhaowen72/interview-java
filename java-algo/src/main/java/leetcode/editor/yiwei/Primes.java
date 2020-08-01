@@ -7,7 +7,7 @@ import java.util.Arrays;
  * 如果一个数只能被1和它自身整除,那么这个数就是素数,1不是素数
  */
 public class Primes {
-    public static  int countPrime(int n){
+    public static void countPrime(int n){
         boolean[] isPrime = new boolean[n];
         Arrays.fill(isPrime,true);
         for (int i = 2; i < n ; i++) {

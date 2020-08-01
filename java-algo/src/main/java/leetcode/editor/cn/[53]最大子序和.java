@@ -16,11 +16,16 @@ package leetcode.editor.cn;
 class MaximumSubarray {
     public static void main(String[] args) {
         Solution solution = new MaximumSubarray().new Solution();
+        int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        //solution.maxSubArray(nums);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int maxSubArray(int[] nums) {
+        public int maxSubArray2(int[] nums) {
+            if (nums == null) {
+                return 0;
+            }
             int len = nums.length;
             int[] dp = new int[len];
             dp[0] = nums[0];
@@ -32,24 +37,18 @@ class MaximumSubarray {
             return max;
         }
 
-        /**
-         * 采用分治算法
-         *
-         * @param nums
-         * @return
-         */
-        public int maxSubArray3(int[] nums) {
-            return maxSubArrayHelper2(nums, 0, nums.length - 1);
+        public int maxSubArray(int[] nums) {
+            return divide(nums, 0, nums.length - 1);
         }
 
-        public int maxSubArrayHelper2(int[] nums, int left, int right) {
+        public int divide(int[] nums, int left, int right) {
             if (left == right) {
                 return nums[left];
             }
-            int mid = left + ((right - left) >> 1);
-            int leftSum = maxSubArrayHelper2(nums, left, mid);
-            int rightSum = maxSubArrayHelper2(nums, mid + 1, right);
-            int crossSum = crossSubArray2(nums, left, right);
+            int mid = left + (right - left) / 2;
+            int leftSum = divide(nums, left, mid);
+            int rightSum = divide(nums, mid + 1, right);
+            int crossSum = crossSum(nums, left, right);
             if (leftSum >= rightSum && leftSum >= crossSum) {
                 return leftSum;
             }
@@ -59,7 +58,7 @@ class MaximumSubarray {
             return crossSum;
         }
 
-        public int crossSubArray2(int[] nums, int left, int right) {
+        public int crossSum(int[] nums, int left, int right) {
             int leftSum = Integer.MIN_VALUE;
             int rightSum = Integer.MIN_VALUE;
             int sum = 0;
@@ -80,55 +79,6 @@ class MaximumSubarray {
             return leftSum + rightSum;
         }
 
-        public int maxSubArrayHelper(int[] nums, int left, int right) {
-            if (left == right) {
-                return nums[left];
-            }
-            int mid = left + ((right - left) >> 1);
-            int leftSum = maxSubArrayHelper(nums, left, mid);// left part
-            int rightSum = maxSubArrayHelper(nums, mid + 1, right);// right part
-            int crossSum = crossSubArray(nums, left, right);// cross part
-            if (leftSum >= rightSum && leftSum >= crossSum) {// left part is max
-                return leftSum;
-            }
-            if (rightSum >= leftSum && rightSum >= crossSum) {// right part is max
-                return rightSum;
-            }
-            return crossSum;
-        }
-
-        public int crossSubArray(int[] nums, int left, int right) {
-            int leftSum = Integer.MIN_VALUE;
-            int rightSum = Integer.MIN_VALUE;
-            int sum = 0;
-            int mid = left + (right - left) / 2;
-            for (int i = mid; i >= left; i--) {
-                sum += nums[i];
-                if (leftSum < sum) {
-                    leftSum = sum;
-                }
-            }
-            sum = 0;
-            for (int j = mid + 1; j <= right; j++) {
-                sum = sum + nums[j];
-                if (rightSum < sum) {
-                    rightSum = sum;
-                }
-            }
-            return leftSum + rightSum;
-        }
-
-        public int maxSubArray2(int[] nums) {
-            int len = nums.length;
-            int[] dp = new int[len];
-            dp[0] = nums[0];
-            int max = dp[0];
-            for (int i = 1; i < len; i++) {
-                dp[i] = nums[i] + (dp[i - 1] > 0 ? dp[i - 1] : 0);
-                max = Math.max(max, dp[i]);
-            }
-            return max;
-        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

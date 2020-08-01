@@ -21,16 +21,53 @@ package leetcode.editor.cn;
 //1.  1 阶 + 1 阶 + 1 阶
 //2.  1 阶 + 2 阶
 //3.  2 阶 + 1 阶
-// 
+
+// 2020.7.22
+// 输入：4
+// 输出：5
+//1. 1+1+1+1
+//2. 1+2+1
+//3. 2+1+1
+//4. 1+1+2
+//5. 2+2
+
+// 我的理解：比如4个台阶是在3个台阶上+1,2个台阶上+2
+
+// 输入：5
+// 1+1+1+1+1
+// 1+2+1+1
+// 2+1+1+1
+// 1+1+2+1
+// 2+2+1
+// 1+1+1+2
+// 1+2+2
+// 2+1+2
+
+
+
 // Related Topics 动态规划
 
-class ClimbingStairs{
+class ClimbingStairs {
     public static void main(String[] args) {
-         Solution solution = new ClimbingStairs().new Solution();
+        Solution solution = new ClimbingStairs().new Solution();
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+    class Solution {
         public int climbStairs(int n) {
+            if (n == 1) return n;
+            // dp[i]当有台阶i时dp[i]种走法
+            int[] dp = new int[n + 1];
+            dp[1] = 1;
+            dp[2] = 2;
+            for (int i = 3; i <= n; i++) {
+                dp[i] = dp[i - 2] + dp[i - 1];
+            }
+            return dp[n];
+        }
+
+
+        public int climbStairs2(int n) {
             if (n == 1) {
                 return 1;
             }
