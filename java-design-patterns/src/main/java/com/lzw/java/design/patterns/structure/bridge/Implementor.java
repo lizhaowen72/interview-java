@@ -1,4 +1,4 @@
-package com.lzw.java.design.patterns.bridge;
+package com.lzw.java.design.patterns.structure.bridge;
 
 /**
  * 实现化角色

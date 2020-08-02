@@ -1,4 +1,4 @@
-package com.lzw.java.design.patterns.bridge;
+package com.lzw.java.design.patterns.structure.bridge;
 
 public class RefinedAbstraction extends  Abstraction{
     public RefinedAbstraction(Implementor imple) {

@@ -1,4 +1,4 @@
-package com.lzw.java.design.patterns.bridge;
+package com.lzw.java.design.patterns.structure.bridge;
 //具体实现化角色
 public class ConcreteImplA implements Implementor {
     @Override

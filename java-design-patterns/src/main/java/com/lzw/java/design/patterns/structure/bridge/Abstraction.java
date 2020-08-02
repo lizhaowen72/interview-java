@@ -1,4 +1,4 @@
-package com.lzw.java.design.patterns.bridge;
+package com.lzw.java.design.patterns.structure.bridge;
 // 抽象化角色
 public abstract  class Abstraction {
     protected Implementor imple;
