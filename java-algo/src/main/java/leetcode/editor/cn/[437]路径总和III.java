@@ -25,15 +25,14 @@ package leetcode.editor.cn;
 //2.  5 -> 2 -> 1
 //3.  -3 -> 11
 // 
-// Related Topics 树
+// Related Topics 树 
+// 👍 514 👎 0
 
 
-public class PathSumIii {
+class PathSumIii {
     public static void main(String[] args) {
         Solution solution = new PathSumIii().new Solution();
     }
-
-
 //leetcode submit region begin(Prohibit modification and deletion)
 
     /**
@@ -42,7 +41,13 @@ public class PathSumIii {
      * int val;
      * TreeNode left;
      * TreeNode right;
-     * TreeNode(int x) { val = x; }
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
      * }
      */
     class Solution {
@@ -55,32 +60,27 @@ public class PathSumIii {
             helper(root, sum);
             return res;
         }
-
-        private void helper(TreeNode root, int sum) {
-            if (root == null) return;
+        // 尝试从二叉树上的每个节点向下扫描
+        public void helper(TreeNode root, int sum) {
+            if (root == null) {
+                return;
+            }
             isEqualSum(root, sum);
             helper(root.left, sum);
             helper(root.right, sum);
         }
-
-        private void isEqualSum(TreeNode root, int sum) {
-            if (root == null) return;
-            if (sum == root.val) {
+        // 判断当前节点是否满足，如满足结果+1
+        public void isEqualSum(TreeNode root, int sum) {
+            if (root == null) {
+                return;
+            }
+            if (root.val == sum) {
                 res++;
             }
             isEqualSum(root.left, sum - root.val);
             isEqualSum(root.right, sum - root.val);
         }
     }
+//leetcode submit region end(Prohibit modification and deletion)
 
-    //leetcode submit region end(Prohibit modification and deletion)
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int val) {
-            this.val = val;
-        }
-    }
 }
