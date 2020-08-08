@@ -59,6 +59,21 @@ class SumRootToLeafNumbers {
      */
     class Solution {
         public int sumNumbers(TreeNode root) {
+            return sumNum(root, 0);
+        }
+
+        public int sumNum(TreeNode root, int start) {
+            if (root == null) {
+                return 0;
+            }
+            if (root.left == null && root.right == null) {
+                return start * 10 + root.val;
+            }
+            return sumNum(root.left, start * 10 + root.val) + sumNum(root.right, start * 10 + root.val);
+        }
+
+
+        public int sumNumbers2(TreeNode root) {
             return sum(root, 0);
         }
 

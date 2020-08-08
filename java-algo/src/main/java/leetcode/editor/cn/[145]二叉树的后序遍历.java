@@ -41,6 +41,37 @@ class BinaryTreePostorderTraversal {
      * }
      */
     class Solution {
+        public List<Integer> postorderTraversal0(TreeNode root) {
+            List<Integer> res = new ArrayList<>();
+            helper(root, res);
+            return res;
+        }
+
+        private void helper(TreeNode root, List<Integer> res) {
+            if (root == null) {
+                return;
+            }
+            helper(root.left, res);
+            helper(root.right, res);
+            res.add(root.val);
+        }
+
+        public List<Integer> postorderTraversal(TreeNode root) {
+            Stack<TreeNode> stack = new Stack<>();
+            List<Integer> res = new ArrayList<>();
+            TreeNode currNode = root;
+            while (!stack.isEmpty() || currNode != null) {
+                while (currNode != null) {
+                    res.add(0, currNode.val);
+                    stack.add(currNode);
+                    currNode = currNode.right;
+                }
+                currNode = stack.pop();
+                currNode = currNode.left;
+            }
+            return res;
+        }
+
 
         /**
          * 迭代解法1
@@ -71,7 +102,7 @@ class BinaryTreePostorderTraversal {
          * @param root
          * @return
          */
-        public List<Integer> postorderTraversal(TreeNode root) {
+        public List<Integer> postorderTraversal1(TreeNode root) {
             Stack<TreeNode> stack = new Stack<>();
             List<Integer> res = new ArrayList<>();
             while (root != null || !stack.isEmpty()) {

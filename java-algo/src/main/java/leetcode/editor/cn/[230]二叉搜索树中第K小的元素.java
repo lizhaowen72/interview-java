@@ -1,4 +1,5 @@
-//给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。 
+package leetcode.editor.cn;
+//给定一个二叉搜索树，编写一个函数 kthSmallest 来查找其中第 k 个最小的元素。
 //
 // 说明： 
 //你可以假设 k 总是有效的，1 ≤ k ≤ 二叉搜索树元素个数。 
@@ -27,27 +28,16 @@
 //
 // 进阶： 
 //如果二叉搜索树经常被修改（插入/删除操作）并且你需要频繁地查找第 k 小的值，你将如何优化 kthSmallest 函数？ 
-// Related Topics 树 二分查找
+// Related Topics 树 二分查找 
+// 👍 251 👎 0
 
-package leetcode.editor.cn;
 
 import java.util.Stack;
 
-public class KthSmallestElementInABst {
+class KthSmallestElementInABst {
     public static void main(String[] args) {
         Solution solution = new KthSmallestElementInABst().new Solution();
-        TreeNode node = new TreeNode(3);
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(4);
-        TreeNode node3 = new TreeNode(2);
-        node.left = node1;
-        node.right = node2;
-        node1.right = node3;
-        solution.kthSmallest(node,2);
-
     }
-
-
 //leetcode submit region begin(Prohibit modification and deletion)
 
     /**
@@ -56,15 +46,21 @@ public class KthSmallestElementInABst {
      * int val;
      * TreeNode left;
      * TreeNode right;
-     * TreeNode(int x) { val = x; }
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
      * }
      */
     class Solution {
         public int kthSmallest(TreeNode root, int k) {
-            Stack<TreeNode> stack = new Stack<TreeNode>();
-            while (root != null || !stack.isEmpty()) {
+            Stack<TreeNode> stack = new Stack<>();
+            while (!stack.isEmpty() || root != null) {
                 while (root != null) {
-                    stack.push(root);
+                    stack.add(root);
                     root = root.left;
                 }
                 root = stack.pop();
@@ -76,15 +72,6 @@ public class KthSmallestElementInABst {
             return root.val;
         }
     }
+//leetcode submit region end(Prohibit modification and deletion)
 
-    //leetcode submit region end(Prohibit modification and deletion)
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        public TreeNode(int x) {
-            this.val = x;
-        }
-    }
 }
