@@ -1,0 +1,34 @@
+
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        /**
+         * Since this is a BST, we can do a reverse inorder traversal to traverse the nodes of the tree in descending order.
+         * In the process, we keep track of the running sum of all nodes which we have traversed thus far.
+         */
+        int sum = 0;
+
+        public TreeNode convertBST(TreeNode root) {
+            convert(root);
+            return root;
+        }
+
+        private void convert(TreeNode root) {
+            if (root == null) return;
+            convert(root.right);
+            root.val += sum;
+            sum = root.val;
+            convert(root.left);
+        }
+    }
+
+
+//runtime:1 ms
+//memory:42.5 MB

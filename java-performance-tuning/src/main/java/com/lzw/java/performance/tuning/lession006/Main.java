@@ -26,12 +26,8 @@ public class Main {
         Map<String, List<Student>> collect = studentList.stream().filter((Student s) -> s.getHeight() > 160).collect(Collectors.groupingBy(Student::getSex));
         studentList.parallelStream().filter((Student s)->s.getHeight()>160).collect(Collectors.groupingBy(Student::getSex));
 
-        List<String> names = Arrays.asList("张三", "李四", "王老五", "李三", "刘老四", "王小二", "张四", "张五六七");
 
-        String maxLenStartWithZ = names.stream()
-                .filter(name -> name.startsWith("张"))
-                .mapToInt(String::length)
-                .max()
-                .toString();
+
+
     }
 }
