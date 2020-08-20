@@ -24,30 +24,14 @@ class MinimumPathSum {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int minPathSum(int[][] grid) {
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[0].length; j++) {
+            int r = grid.length;
+            int c = grid[0].length;
+            for (int i = 0; i < r; i++) {
+                for (int j = 0; j < c; j++) {
                     if (i == 0 && j == 0) {
                         continue;
                     } else if (i == 0) {
-                        grid[0][j] = grid[0][j - 1] + grid[0][j];
-                    } else if (j == 0) {
-                        grid[i][0] = grid[i - 1][0] + grid[i][0];
-                    } else {
-                        grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
-                    }
-                }
-            }
-            return grid[grid.length - 1][grid[0].length - 1];
-        }
-
-
-        public int minPathSum2(int[][] grid) {
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[0].length; j++) {
-                    if (i == 0 && j == 0) {
-                        continue;
-                    } else if (i == 0) {
-                        grid[0][j] = grid[0][j - 1] + grid[0][j];
+                        grid[0][j] = grid[0][j] + grid[0][j - 1];
                     } else if (j == 0) {
                         grid[i][0] = grid[i][0] + grid[i - 1][0];
                     } else {
@@ -55,7 +39,7 @@ class MinimumPathSum {
                     }
                 }
             }
-            return grid[grid.length - 1][grid[0].length - 1];
+            return grid[r - 1][c - 1];
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

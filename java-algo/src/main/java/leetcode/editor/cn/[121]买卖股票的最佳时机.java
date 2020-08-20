@@ -25,7 +25,7 @@ class BestTimeToBuyAndSellStock {
     public static void main(String[] args) {
         Solution solution = new BestTimeToBuyAndSellStock().new Solution();
         int[] prices = {7, 1, 5, -3, 6, 4};
-        int i = solution.maxProfit(prices);
+        int i = solution.maxProfit2(prices);
         System.out.println(i);
     }
 
@@ -49,33 +49,36 @@ class BestTimeToBuyAndSellStock {
          * @param prices
          * @return
          */
-        public int maxProfit2(int[] prices) {
-            int maxCur = 0, maxSoFar = 0;
+        public int maxProfit(int[] prices) {
+           int maxCurr=0;
+           int maxSoFar=0;
             for (int i = 1; i < prices.length; i++) {
-                maxCur += prices[i] - prices[i - 1];
-                maxCur = Math.max(0, maxCur);
-                maxSoFar = Math.max(maxCur, maxSoFar);
+                maxCurr+=prices[i]-prices[i-1];
+                maxCurr=Math.max(maxCurr,0);
+                maxSoFar=Math.max(maxCurr,maxSoFar);
             }
             return maxSoFar;
         }
 
         /**
-         * 时间复杂度：O(n)O(n)，只需要遍历一次。
-         * 空间复杂度：O(1)O(1)，只使用了两个变量。
+         * 时间复杂度：O(n)，只需要遍历一次。
+         * 空间复杂度：O(1)，只使用了两个变量。
          *
          * @param prices
          * @return
          */
-        public int maxProfit(int prices[]) {
-            int minprice = Integer.MAX_VALUE;
-            int maxprofit = 0;
+        public int maxProfit2(int prices[]) {
+            int minPrice = Integer.MAX_VALUE;
+            int maxProfit = 0;
             for (int i = 0; i < prices.length; i++) {
-                if (prices[i] < minprice) {
-                    minprice = prices[i];
-                } else if (prices[i] - minprice > maxprofit)
-                    maxprofit = prices[i] - minprice;
+                if (minPrice > prices[i]) {
+                    minPrice = prices[i];
+                }
+                if (prices[i] - minPrice > maxProfit) {
+                    maxProfit = prices[i] - minPrice;
+                }
             }
-            return maxprofit;
+            return maxProfit;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

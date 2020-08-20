@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-//从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。 
+//请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。 
 //
 // 
 //
@@ -13,9 +13,13 @@ package leetcode.editor.cn;
 //   15   7
 // 
 //
-// 返回： 
+// 返回其层次遍历结果： 
 //
-// [3,9,20,15,7]
+// [
+//  [3],
+//  [20,9],
+//  [15,7]
+//]
 // 
 //
 // 
@@ -26,22 +30,16 @@ package leetcode.editor.cn;
 // 节点总数 <= 1000 
 // 
 // Related Topics 树 广度优先搜索 
-// 👍 33 👎 0
+// 👍 38 👎 0
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-class CongShangDaoXiaDaYinErChaShuLcof {
+class CongShangDaoXiaDaYinErChaShuIiiLcof {
     public static void main(String[] args) {
-        Solution solution = new CongShangDaoXiaDaYinErChaShuLcof().new Solution();
-        TreeNode root = new TreeNode(2);
-        TreeNode left = new TreeNode(1);
-        TreeNode right = new TreeNode(3);
-        root.left = left;
-        root.right = right;
-        solution.levelOrder(root);
+        Solution solution = new CongShangDaoXiaDaYinErChaShuIiiLcof().new Solution();
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -55,13 +53,15 @@ class CongShangDaoXiaDaYinErChaShuLcof {
      * }
      */
     class Solution {
-        public int[] levelOrder(TreeNode root) {
-            if (root == null) return new int[0];
+        public List<List<Integer>> levelOrder(TreeNode root) {
             Queue<TreeNode> queue = new LinkedList<>();
-            queue.offer(root);
-            List<Integer> res = new ArrayList<>();
+            List<List<Integer>> res = new ArrayList<>();
+            if (root == null) return res;
+            queue.add(root);
+            int level = 0;
             while (!queue.isEmpty()) {
                 int size = queue.size();
+                List<Integer> subRes = new ArrayList<>();
                 for (int i = 0; i < size; i++) {
                     if (queue.peek().left != null) {
                         queue.add(queue.peek().left);
@@ -69,10 +69,16 @@ class CongShangDaoXiaDaYinErChaShuLcof {
                     if (queue.peek().right != null) {
                         queue.add(queue.peek().right);
                     }
-                    res.add(queue.poll().val);
+                    if (level % 2 == 0) {
+                        subRes.add(queue.poll().val);
+                    } else {
+                        subRes.add(0, queue.poll().val);
+                    }
                 }
+                res.add(subRes);
+                level++;
             }
-            return res.stream().mapToInt(i -> i).toArray();
+            return res;
         }
     }
 

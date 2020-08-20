@@ -44,7 +44,6 @@ package leetcode.editor.cn;
 // 2+1+2
 
 
-
 // Related Topics 动态规划
 
 class ClimbingStairs {
@@ -55,22 +54,7 @@ class ClimbingStairs {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int climbStairs(int n) {
-            if (n == 1) return n;
-            // dp[i]当有台阶i时dp[i]种走法
-            int[] dp = new int[n + 1];
-            dp[1] = 1;
-            dp[2] = 2;
-            for (int i = 3; i <= n; i++) {
-                dp[i] = dp[i - 2] + dp[i - 1];
-            }
-            return dp[n];
-        }
-
-
-        public int climbStairs2(int n) {
-            if (n == 1) {
-                return 1;
-            }
+            if (n == 1) return 1;
             int[] dp = new int[n + 1];
             dp[1] = 1;
             dp[2] = 2;

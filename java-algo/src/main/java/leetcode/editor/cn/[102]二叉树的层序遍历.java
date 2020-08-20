@@ -91,5 +91,13 @@ class BinaryTreeLevelOrderTraversal {
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
+static class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
 
+    TreeNode(int x) {
+        val = x;
+    }
+}
 }

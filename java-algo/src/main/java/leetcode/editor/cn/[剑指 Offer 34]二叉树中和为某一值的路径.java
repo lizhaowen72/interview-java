@@ -1,7 +1,7 @@
 package leetcode.editor.cn;
-//给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
+//输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。 
 //
-// 说明: 叶子节点是指没有子节点的节点。 
+// 
 //
 // 示例: 
 //给定如下二叉树，以及目标和 sum = 22， 
@@ -22,16 +22,25 @@ package leetcode.editor.cn;
 //   [5,8,4,5]
 //]
 // 
+//
+// 
+//
+// 提示： 
+//
+// 
+// 节点总数 <= 10000 
+// 
+//
+// 注意：本题与主站 113 题相同：https://leetcode-cn.com/problems/path-sum-ii/ 
 // Related Topics 树 深度优先搜索 
-// 👍 281 👎 0
-
+// 👍 70 👎 0
 
 import java.util.ArrayList;
 import java.util.List;
 
-class PathSumIi {
+class ErChaShuZhongHeWeiMouYiZhiDeLuJingLcof {
     public static void main(String[] args) {
-        Solution solution = new PathSumIi().new Solution();
+        Solution solution = new ErChaShuZhongHeWeiMouYiZhiDeLuJingLcof().new Solution();
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -47,25 +56,23 @@ class PathSumIi {
     class Solution {
         public List<List<Integer>> pathSum(TreeNode root, int sum) {
             List<List<Integer>> res = new ArrayList<>();
-            List<Integer> currentList = new ArrayList<>();
-            pathSumHelper(root, sum, res, currentList);
+            List<Integer> tempList = new ArrayList<>();
+            helper(root, res, tempList, sum);
             return res;
         }
 
-        private void pathSumHelper(TreeNode root, int sum, List<List<Integer>> res, List<Integer> currentList) {
-            if (root == null) {
-                return;
-            }
-            currentList.add(root.val);
-            if (root.left == null && root.right == null && sum - root.val == 0) {
-                res.add(new ArrayList<>(currentList));
-                currentList.remove(currentList.size() - 1);
+        private void helper(TreeNode root, List<List<Integer>> res, List<Integer> tempList, int sum) {
+            if (root == null) return;
+            tempList.add(root.val);
+            if (root.left == null && root.right == null && root.val == sum) {
+                res.add(new ArrayList<>(tempList));
+                tempList.remove(tempList.size() - 1);
                 return;
             } else {
-                pathSumHelper(root.left, sum - root.val, res, currentList);
-                pathSumHelper(root.right, sum - root.val, res, currentList);
+                helper(root.left, res, tempList, sum - root.val);
+                helper(root.right, res, tempList, sum - root.val);
             }
-            currentList.remove(currentList.size() - 1);
+            tempList.remove(tempList.size() - 1);
         }
     }
 
@@ -76,7 +83,7 @@ class PathSumIi {
         TreeNode right;
 
         TreeNode(int x) {
-            this.val = x;
+            val = x;
         }
     }
 }

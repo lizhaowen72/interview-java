@@ -17,16 +17,14 @@ class MaximumSubarray {
     public static void main(String[] args) {
         Solution solution = new MaximumSubarray().new Solution();
         int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-        //solution.maxSubArray(nums);
+        solution.maxSubArray(nums);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int maxSubArray2(int[] nums) {
-            if (nums == null) {
-                return 0;
-            }
             int len = nums.length;
+            // dp[i]表示数组从索引0到i的最大和
             int[] dp = new int[len];
             dp[0] = nums[0];
             int max = dp[0];
@@ -38,27 +36,25 @@ class MaximumSubarray {
         }
 
         public int maxSubArray(int[] nums) {
-            return divide(nums, 0, nums.length - 1);
+            return divde(nums, 0, nums.length - 1);
         }
 
-        public int divide(int[] nums, int left, int right) {
-            if (left == right) {
-                return nums[left];
-            }
+        private int divde(int[] nums, int left, int right) {
+            if (left == right) return nums[left];
             int mid = left + (right - left) / 2;
-            int leftSum = divide(nums, left, mid);
-            int rightSum = divide(nums, mid + 1, right);
+            int leftSum = divde(nums, left, mid);
+            int rightSum = divde(nums, mid + 1, right);
             int crossSum = crossSum(nums, left, right);
-            if (leftSum >= rightSum && leftSum >= crossSum) {
+            if (leftSum>=rightSum&&leftSum>=crossSum){
                 return leftSum;
             }
-            if (rightSum >= leftSum && rightSum >= crossSum) {
+            if (rightSum>=leftSum&&rightSum>=crossSum){
                 return rightSum;
             }
             return crossSum;
         }
 
-        public int crossSum(int[] nums, int left, int right) {
+        private int crossSum(int[] nums, int left, int right) {
             int leftSum = Integer.MIN_VALUE;
             int rightSum = Integer.MIN_VALUE;
             int sum = 0;
@@ -70,15 +66,14 @@ class MaximumSubarray {
                 }
             }
             sum = 0;
-            for (int j = mid + 1; j <= right; j++) {
-                sum += nums[j];
+            for (int i = mid + 1; i <= right; i++) {
+                sum += nums[i];
                 if (rightSum < sum) {
                     rightSum = sum;
                 }
             }
             return leftSum + rightSum;
         }
-
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
