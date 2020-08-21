@@ -72,7 +72,7 @@ package leetcode.editor.cn;
 
 import java.util.*;
 
-class CloneGraph{
+class CloneGraph {
     public static void main(String[] args) {
         Solution solution = new CloneGraph().new Solution();
         Node node1 = new Node(1);
@@ -119,22 +119,23 @@ class Node {
         public Node cloneGraph(Node node) {
             Map<Node, Node> lookup = new HashMap<>();
             //return dfs(node, lookup);
-            return cloneGraphDFS(node);
+            return cloneGraphBFS(node);
         }
 
         // BFS
         public Node cloneGraphBFS(Node node) {
-            Node root = new Node(node.val, new ArrayList<>());
+            if (node == null) return null;
+            Node root = new Node(node.val, new ArrayList());
             Queue<Node> queue = new LinkedList<>();
             Map<Node, Node> map = new HashMap<>();
             map.put(node, root);
-            queue.add(node);
+            queue.offer(node);
             while (!queue.isEmpty()) {
                 Node currNode = queue.poll();
                 for (Node child : currNode.neighbors) {
                     if (!map.containsKey(child)) {
                         map.put(child, new Node(child.val, new ArrayList<>()));
-                        queue.add(child);
+                        queue.offer(child);
                     }
                     map.get(currNode).neighbors.add(map.get(child));
                 }

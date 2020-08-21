@@ -30,7 +30,14 @@ package leetcode.editor.cn;
 
 class RangeSumQuery2dImmutable{
     public static void main(String[] args) {
-       // NumMatrix solution = new RangeSumQuery2dImmutable().new NumMatrix();
+        int[][] matrix = {
+            {3,0,1,4,2},
+            {5,6,3,2,1},
+            {1,2,0,1,5},
+            {4,1,0,1,7},
+            {1,0,3,0,5}};
+       NumMatrix solution = new RangeSumQuery2dImmutable().new NumMatrix(matrix);
+       solution.sumRegion(2,1,4,3);
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 class NumMatrix {

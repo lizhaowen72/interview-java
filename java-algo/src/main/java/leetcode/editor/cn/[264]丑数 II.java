@@ -20,6 +20,8 @@ package leetcode.editor.cn;
 class UglyNumberIi {
     public static void main(String[] args) {
         Solution solution = new UglyNumberIi().new Solution();
+        int i = solution.nthUglyNumber(10);
+        System.out.println(i);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
