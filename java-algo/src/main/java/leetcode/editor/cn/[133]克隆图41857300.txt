@@ -1,0 +1,80 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {}
+
+    public Node(int _val,List<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+    class Solution {
+        public Node cloneGraph(Node node) {
+            Map<Node, Node> lookup = new HashMap<>();
+            //return dfs(node, lookup);
+            return cloneGraphDFS(node);
+        }
+
+        // BFS
+        public Node cloneGraphBFS(Node node) {
+            Node root = new Node(node.val, new ArrayList<>());
+            Queue<Node> queue = new LinkedList<>();
+            Map<Node, Node> map = new HashMap<>();
+            map.put(node, root);
+            queue.add(node);
+            while (!queue.isEmpty()) {
+                Node currNode = queue.poll();
+                for (Node child : currNode.neighbors) {
+                    if (!map.containsKey(child)) {
+                        map.put(child, new Node(child.val, new ArrayList<>()));
+                        queue.add(child);
+                    }
+                    map.get(currNode).neighbors.add(map.get(child));
+                }
+            }
+            return root;
+        }
+
+        //DFS
+        public Node cloneGraphDFS(Node node) {
+            Node root = new Node(node.val, new ArrayList<>());
+            Stack<Node> stack = new Stack<>();
+            Map<Node, Node> map = new HashMap<>();
+            map.put(node, root);
+            stack.add(node);
+            while (!stack.isEmpty()) {
+                Node currNode = stack.pop();
+                for (Node child : currNode.neighbors) {
+                    if (!map.containsKey(child)) {
+                        map.put(child, new Node(child.val, new ArrayList<>()));
+                        stack.add(child);
+                    }
+                    map.get(currNode).neighbors.add(map.get(child));
+                }
+            }
+            return root;
+        }
+
+        private Node dfs(Node node, Map<Node, Node> lookup) {
+            if (node == null) {
+                return null;
+            }
+            if (lookup.containsKey(node)) {
+                return lookup.get(node);
+            }
+            Node clone = new Node(node.val, new ArrayList<Node>());
+            lookup.put(node, clone);
+            for (Node neighbor : node.neighbors) {
+                clone.neighbors.add(dfs(neighbor, lookup));
+            }
+            return clone;
+        }
+    }
+
+
+//runtime:3 ms
+//memory:34.1 MB

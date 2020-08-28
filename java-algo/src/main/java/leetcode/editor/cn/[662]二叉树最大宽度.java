@@ -69,9 +69,18 @@ package leetcode.editor.cn;
 // Related Topics 树 
 // 👍 134 👎 0
 
+import java.util.ArrayList;
+import java.util.List;
+
 class MaximumWidthOfBinaryTree {
     public static void main(String[] args) {
         Solution solution = new MaximumWidthOfBinaryTree().new Solution();
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        node1.left = node2;
+        node1.right = node3;
+        solution.widthOfBinaryTree(node1);
     }
 //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -91,8 +100,23 @@ class MaximumWidthOfBinaryTree {
      * }
      */
     class Solution {
+        private int max = 1;
+
         public int widthOfBinaryTree(TreeNode root) {
-            return 0;
+            if (root == null) return 0;
+            List<Integer> startOfLevel = new ArrayList<>();
+            helper(root, 0, 1, startOfLevel);
+            return max;
+        }
+
+        public void helper(TreeNode root, int level, int index, List<Integer> list) {
+            if (root == null) return;
+            if (level == list.size()) {
+                list.add(index);
+            }
+            max = Math.max(max, index - list.get(level) + 1);
+            helper(root.left, level + 1, index * 2, list);
+            helper(root.right, level + 1, index * 2 + 1, list);
         }
     }
 

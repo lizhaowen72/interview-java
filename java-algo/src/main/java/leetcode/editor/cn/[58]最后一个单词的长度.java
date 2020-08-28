@@ -19,14 +19,23 @@ package leetcode.editor.cn;
 class LengthOfLastWord {
     public static void main(String[] args) {
         Solution solution = new LengthOfLastWord().new Solution();
+        solution.lengthOfLastWord("a ");
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int lengthOfLastWord(String s) {
-            s = s.trim();
-            int lastIndex = s.lastIndexOf(' ') + 1;
-            return s.length() - lastIndex;
+            int len = 0;
+            for (int i = s.length() - 1; i >= 0; i--) {
+                if (s.charAt(i) != ' ') {
+                    len++;
+                } else {
+                    if (len>0){
+                        return len;
+                    }
+                }
+            }
+            return len;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
