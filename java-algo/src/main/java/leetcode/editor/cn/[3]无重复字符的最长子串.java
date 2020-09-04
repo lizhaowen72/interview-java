@@ -24,15 +24,18 @@ package leetcode.editor.cn;
 // 
 // Related Topics 哈希表 双指针 字符串 Sliding Window
 
+import javax.sound.midi.Soundbank;
 import java.util.HashMap;
 import java.util.Map;
 
-class LongestSubstringWithoutRepeatingCharacters{
+class LongestSubstringWithoutRepeatingCharacters {
     public static void main(String[] args) {
-         Solution solution = new LongestSubstringWithoutRepeatingCharacters().new Solution();
+        Solution solution = new LongestSubstringWithoutRepeatingCharacters().new Solution();
+        solution.lengthOfLongestSubstring("aba");
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+    class Solution {
         /**
          * 基本思想是，保留一个将字符串中的字符存储为键并将其位置存储为值的哈希表，并保留两个定义最大子字符串的指针。
          * 移动右指针以浏览字符串，同时更新哈希图。 如果字符已经在哈希图中，则将左指针移到最后找到的相同字符的右边。
@@ -58,7 +61,7 @@ class Solution {
             }
             return max;
         }
-}
+    }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
