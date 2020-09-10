@@ -12,11 +12,11 @@ public class ThreadLocalTest {
 
         new Thread(() -> {
             try {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 10; i++) {
                     threadLocal.set(i);
-                    threadLocal2.set(i+100);
+                    threadLocal.set(i+100);
                     System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());
-                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal2.get());
+                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());;
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
@@ -29,21 +29,21 @@ public class ThreadLocalTest {
         }, "threadLocal1").start();
 
 
-        new Thread(() -> {
-            try {
-                for (int i = 0; i < 100; i++) {
-                    threadLocal.set(i);
-                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } finally {
-                threadLocal.remove();
-            }
-        }, "threadLocal2").start();
+//        new Thread(() -> {
+//            try {
+//                for (int i = 0; i < 10; i++) {
+//                    threadLocal.set(i);
+//                    System.out.println(Thread.currentThread().getName() + "====" + threadLocal.get());
+//                    try {
+//                        Thread.sleep(200);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } finally {
+//                threadLocal.remove();
+//            }
+//        }, "threadLocal2").start();
     }
 }
 
