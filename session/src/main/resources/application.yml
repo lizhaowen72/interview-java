@@ -1,0 +1,11 @@
+spring:
+  session:
+    store-type: redis
+    timeout: 3600s
+    redis:
+    flush-mode: on_save
+    namespace: spring:session
+  redis:
+  host: 192.168.99.100
+  port: 6379
+  timeout: 5000ms

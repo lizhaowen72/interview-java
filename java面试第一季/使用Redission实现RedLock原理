@@ -1,0 +1,183 @@
+1.RedLock原理
+
+    RedLock是基于redis实现的分布式锁,他能够保证以下特性  
+    互斥性:在任何时候,只能有一个客户端能够持有锁,避免死锁
+    当客户端拿到锁后,即使发生了网络分区或者客户端宕机,也不会发生死锁;(利用key的存活时间)
+    容错性:只要多数节点的redis实例正常运行,就能够对外提供服务,加锁或者释放锁
+2.Redisson实现原理
+
+    Redisson中有一个multiLock的概念,可以将多个锁合并为一个大锁,对一个大锁进行统一的申请加锁以及释放锁.
+
+3.RedLock使用案例
+```java
+class RedLockDemo{
+    @Bean
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        config.useClusterServers()
+                .setScanInterval(2000) // 集群状态扫描间隔时间，单位是毫秒
+                .addNodeAddress("redis://127.0.0.1:7000").setPassword("1")
+                .addNodeAddress("redis://127.0.0.1:7001").setPassword("1")
+                .addNodeAddress("redis://127.0.0.1:7002")
+                .setPassword("1");
+        return Redisson.create(config);
+    }
+    
+    public void test(){
+        long waitTimeout = 10;
+        long leaseTime = 1;
+        RLock lock1 = redissonClient1.getLock("lock1");
+        RLock lock2 = redissonClient2.getLock("lock2");
+        RLock lock3 = redissonClient3.getLock("lock3");
+        
+        RedissonRedLock redLock = new RedissonRedLock(lock1, lock2, lock3);
+        // 同时加锁：lock1 lock2 lock3
+        // 红锁在大部分节点上加锁成功就算成功，且设置总超时时间以及单个节点超时时间
+        redLock.trylock(waitTimeout,leaseTime,TimeUnit.SECONDS);
+        //...
+        redLock.unlock();
+    }
+}
+```
+    这里是分别对3个redis实例加锁，然后获取一个最后的加锁结果。
+4.RedissonRedLock实现原理
+```java
+public class RedissonRedLock extends RedissonMultiLock {
+
+    /**
+     * Creates instance with multiple RLock objects.
+     * Each RLock object could be created by own Redisson instance.
+     *
+     * @param locks - array of locks
+     */
+    public RedissonRedLock(RLock... locks) {
+        super(locks);
+    }
+    /*
+     * 锁可以失败的次数,锁的数量-锁成功客户端最小的数量
+     */
+    @Override
+    protected int failedLocksLimit() {
+        return locks.size() - minLocksAmount(locks);
+    }
+    /*
+     * 锁的数量/2+1,例如有3个客户端加锁,那么最少需要2个客户端加锁成功   
+     */
+    protected int minLocksAmount(final List<RLock> locks) {
+        return locks.size()/2 + 1;
+    }
+    /*
+     * 计算多个客户端一起加锁的超时时间,每个客户端的等待时间
+     */
+    @Override
+    protected long calcLockWaitTime(long remainTime) {
+        return Math.max(remainTime / locks.size(), 1);
+    }
+    
+    @Override
+    public void unlock() {
+        unlockInner(locks);
+    }
+
+}
+```
+5.RedissonMultiLock实现原理
+```java
+class RedissonMultiLock{
+     public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {
+        long newLeaseTime = -1;
+        if (leaseTime != -1) {
+            // 如果等待时间设置里,那么将等待时间*2
+            newLeaseTime = unit.toMillis(waitTime)*2;
+        }
+        
+        long time = System.currentTimeMillis();
+        long remainTime = -1;
+        if (waitTime != -1) {
+            remainTime = unit.toMillis(waitTime);
+        }
+        // 计算锁的等待时间，RedLock中：如果remainTime=-1，那么lockWaitTime为1
+        long lockWaitTime = calcLockWaitTime(remainTime);
+         // RedLock中failedLocksLimit即为n/2 + 1
+        int failedLocksLimit = failedLocksLimit();
+        List<RLock> acquiredLocks = new ArrayList<RLock>(locks.size());
+        for (ListIterator<RLock> iterator = locks.listIterator(); iterator.hasNext();) {
+            RLock lock = iterator.next();
+            boolean lockAcquired;
+            try {
+                if (waitTime == -1 && leaseTime == -1) {
+                     // 调用tryLock方法去获取锁，如果获取锁成功，则lockAcquired=true
+                    lockAcquired = lock.tryLock();
+                } else {
+                    long awaitTime = Math.min(lockWaitTime, remainTime);
+                    lockAcquired = lock.tryLock(awaitTime, newLeaseTime, TimeUnit.MILLISECONDS);
+                }
+            } catch (RedisConnectionClosedException e) {
+                unlockInner(Arrays.asList(lock));
+                lockAcquired = false;
+            } catch (RedisResponseTimeoutException e) {
+                unlockInner(Arrays.asList(lock));
+                lockAcquired = false;
+            } catch (Exception e) {
+                lockAcquired = false;
+            }
+             
+            if (lockAcquired) {
+                // 如果获取锁成功，将锁加入到list集合中
+                acquiredLocks.add(lock);
+            } else {
+                // 如果获取锁失败，判断失败次数是否等于失败的限制次数
+                // 比如，3个redis客户端，最多只能失败1次
+                // 这里locks.size = 3, 3-x=1，说明只要成功了2次就可以直接break掉循环
+                if (locks.size() - acquiredLocks.size() == failedLocksLimit()) {
+                    break;
+                }
+                // 如果最大失败次数=0
+                if (failedLocksLimit == 0) {
+                    unlockInner(acquiredLocks);// 释放所有的锁,RedLock加锁失败
+                    if (waitTime == -1 && leaseTime == -1) {
+                        return false;
+                    }
+                    failedLocksLimit = failedLocksLimit();
+                    acquiredLocks.clear();
+                    // reset iterator 重置迭代器,重试再次获取锁
+                    while (iterator.hasPrevious()) {
+                        iterator.previous();
+                    }
+                } else {
+                    // 失败的限制次数减一
+                    // 比如3个redis实例，最大的限制次数是1，如果遍历第一个redis实例，失败了，那么failedLocksLimit会减成0
+                    // 如果failedLocksLimit就会走上面的if逻辑，释放所有的锁，然后返回false
+                    failedLocksLimit--;
+                }
+            }
+            
+            if (remainTime != -1) {
+                remainTime -= (System.currentTimeMillis() - time);
+                time = System.currentTimeMillis();
+                if (remainTime <= 0) {
+                    unlockInner(acquiredLocks);
+                    return false;
+                }
+            }
+        }
+
+        if (leaseTime != -1) {
+            List<RFuture<Boolean>> futures = new ArrayList<RFuture<Boolean>>(acquiredLocks.size());
+            for (RLock rLock : acquiredLocks) {
+                RFuture<Boolean> future = rLock.expireAsync(unit.toMillis(leaseTime), TimeUnit.MILLISECONDS);
+                futures.add(future);
+            }
+            
+            for (RFuture<Boolean> rFuture : futures) {
+                rFuture.syncUninterruptibly();
+            }
+        }
+        
+        return true;
+    }
+}
+```
+    核心代码都已经加了注释，实现原理其实很简单，基于RedLock思想，遍历所有的Redis客户端，然后依次加锁，最后统计成功的次数来判
+    断是否加锁成功。
+
