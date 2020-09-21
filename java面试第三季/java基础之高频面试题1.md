@@ -63,7 +63,7 @@
     那么monitorenter指令执行的时候会干什么呢?
     
     每个对象都有关联的monitor,如果要对这个对象加锁,就必须获取这个对象关联的monitor的lock锁.monitor里面的原理和思路大概是
-    这样的,monitor里面有一个计数器count,从0开始.如果一个线程获取monitor的锁,就会判断他的计数器是不是0,如果是0,那么说明没
+    这样的,monitor里面有一个计数器count,从0开始.如果一个线程要获取monitor的锁,就会判断他的计数器是不是0,如果是0,那么说明没
     有人获取锁,他就可以获取锁,然后对计数器+1.同理释放锁的时候就会-1.如果一个线程来获取monitor锁时发现,count计数器不是0,这
     个线程就会进入阻塞状态.
     注意monitor的锁时支持重复加锁的,owner记录当前持有锁的线程id
@@ -84,13 +84,21 @@
 
 14.ConcurrentHashMap实现线程安全的底层原理到底是什么?
 
-    ConcurrentHashMap的数据结构(数组+链表+红黑树),桶中的结构可能是链表,也可能是红黑树,红黑树是为了提高查找效率
-    jdk7:Segment+HashEntry来进行实现的
-    jdk8:摒弃了Segment的概念,二是直接用Node数组+链表+红黑树的数据结构来实现,并发控制使用synchronized和cas来操作,整个看
-    起来就像是优化过且线程安全的.
+    ConcurrentHashMap 的数据结构(数组+链表+红黑树),桶中的结构可能是链表,也可能是红黑树,红黑树是为了提高查找效率
+    jdk7:在JDK1.7版本中，ConcurrentHashMap的数据结构是由一个Segment数组和多个HashEntry组成，如下图所示：
+
+ ![image_74](../image_74.png)
+
+    Segment数组的意义就是将一个大的table分割成多个小的table来进行加锁，也就是上面的提到的锁分离技术，而每一个Segment  
+    元素存储的是HashEntry数组+链表，这个和HashMap的数据存储结构一样
+    
+    jdk8:摒弃了Segment的概念,而是直接用Node数组+链表+红黑树的数据结构来实现,并发控制使用synchronized和cas来操作,整个看
+    起来就像是优化过且线程安全的. 
+![image_75](../image_75.png)
+
     首先聊聊ConcurrentHashMap存在的必要性:
-        一是因为HashTable本身比较低效,因为它的实现基本就是将put get size等各种方法加上synchronized.简单来说,这就导致了
-        所有并发操作都要竞争同一把锁,一个线程在进行同步操作时,其他线程只能等待,大大降低了并发操作的效率
+    一是因为HashTable本身比较低效,因为它的实现基本就是将put get size等各种方法加上synchronized.简单来说,这就导致了
+    所有并发操作都要竞争同一把锁,一个线程在进行同步操作时,其他线程只能等待,大大降低了并发操作的效率
         
         二是HashMap不支持线程的同步，即任一时刻可以有多个线程同时写HashMap;可能会导致数据的不一致
         
@@ -117,6 +125,7 @@
     AQS类结构中包含一个基于链表实现的等待队列,用于存储所有的阻塞线程,AQS中还有一个变量state,该变量对ReentrantLock
     来说表示加锁状态
 ![image_37](../image_37.png)
+![image_73](../image_73.png)
 
 16.说说线程池的底层工作原理?
 
@@ -435,7 +444,7 @@ public class ThreadPoolExecutor{
 31.高并发的问题有遇到过吗,谈谈你理解的并发? 在我看来,并发编程领域可以抽象成三个核心问题:分工 同步和互斥
 
         所谓分工,类似于现实中一个组织完成一个项目,项目经理要拆分任务,安排合适的成员去完成
-        在并发编程领域里的同步,主要指的是就是线程间的写作,本质上和现实生活中写作没有区别,不过
+        在并发编程领域里的同步,主要指的是就是线程间的协作,本质上和现实生活中写作没有区别,不过
             是一个线程执行完了一个任务,如何通知执行后续任务的线程开工而已
         互斥,所谓互斥,指的是同一时刻,只允许一个线程访问共享变量.
 ![image_30](../image_30.png)
@@ -601,7 +610,7 @@ Lock锁的实现原理
         对 ReentrantLock 来说表示加锁状态。
         该队列的操作均通过 CAS 操作实现，我们可以通过一张图来看下整个获取锁的流程          
 ![image_37](../image_37.png)
-
+![image_72](../image_72.png)
 Synchronized和Lock锁的区别
 ![image_38](../image_38.png)
 
@@ -679,4 +688,6 @@ jvm old区占用过高排查思路
     很多种针对基础数据类型的buffer
     还有Channel，NIO中都是通过Channel来进行数据读写的
     包括Selector，这是多路复用器，Selector会不断轮询注册的channel，如果某个Channel上发生了读写事件，
+
+![image_71](../image_71.png)
 
